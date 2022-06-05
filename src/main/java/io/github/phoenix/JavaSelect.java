@@ -21,6 +21,8 @@ public class JavaSelect extends JavaPlugin implements Listener, Select {
         if (e.getInventory().getHolder() instanceof MenuHolder) {
             e.setCancelled(true);
             MenuHolder holder = (MenuHolder) e.getInventory().getHolder();
+            if (holder.getMenu().getElements().get(e.getSlot()) == null) return;
+
             holder.getMenu().getElements().get(e.getSlot()).onClick(holder.getPlayer());
             holder.getMenu().draw(holder);
         }

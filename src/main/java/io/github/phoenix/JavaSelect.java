@@ -1,9 +1,12 @@
 package io.github.phoenix;
 
+import io.github.phoenix.elements.Element;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
 
 public class JavaSelect extends JavaPlugin implements Listener, Select {
     @Override
@@ -12,8 +15,8 @@ public class JavaSelect extends JavaPlugin implements Listener, Select {
     }
 
     @Override
-    public Menu createMenu(String title, int size) {
-        return new SelectMenu(title, size);
+    public Menu createMenu(MenuTemplate template) {
+        return new SelectMenu(template);
     }
 
     @EventHandler
@@ -21,9 +24,10 @@ public class JavaSelect extends JavaPlugin implements Listener, Select {
         if (e.getInventory().getHolder() instanceof MenuHolder) {
             e.setCancelled(true);
             MenuHolder holder = (MenuHolder) e.getInventory().getHolder();
-            if (holder.getMenu().getElements().get(e.getSlot()) == null) return;
+            HashMap<Integer, Element> elements = holder.getMenu().getTemplate().onDisplay(holder.getPlayer());
+            if (elements.get(e.getSlot()) == null) return;
 
-            holder.getMenu().getElements().get(e.getSlot()).onClick(holder.getPlayer());
+            elements.get(e.getSlot()).onClick(holder.getPlayer());
             holder.getMenu().draw(holder);
         }
     }

@@ -26,7 +26,7 @@ public class SelectMenu implements Menu {
     public void draw(MenuHolder holder) {
         holder.getInventory().clear();
         for (int i : elements.keySet()) {
-            holder.getInventory().setItem(i, elements.get(i).onDisplay(((MenuHolder) holder).getPlayer()));
+            holder.getInventory().setItem(i, elements.get(i).onDisplay((holder).getPlayer()));
         }
     }
 
